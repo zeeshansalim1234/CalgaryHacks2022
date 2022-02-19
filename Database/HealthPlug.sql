@@ -1,11 +1,11 @@
-DROP DATABASE IF EXISTS CH22;
-CREATE DATABASE CH22; 
-USE CH22;
+DROP DATABASE IF EXISTS HEALTHPLUG;
+CREATE DATABASE HEALTHPLUG; 
+USE HEALTHPLUG;
 
 DROP TABLE IF EXISTS USERCREDENTIALS;
 CREATE TABLE USERCREDENTIALS (
-	userName			varchar(25) not null,
-    email			    varchar(255) not null,
+    userName			varchar(25) not null,
+    email			varchar(255) not null,
     firstName			char(25) not null,
     lastName			char(25) not null,
     phoneNumber			varchar(13) not null,
