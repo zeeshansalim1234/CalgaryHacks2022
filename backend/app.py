@@ -15,8 +15,9 @@ from ibm_watson.websocket import RecognizeCallback, AudioSource
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import tempfile
 import moviepy.editor as mp
+from google.cloud import vision
 
-"""
+
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -28,7 +29,7 @@ app.config["CLIENT_pdfs"] = "C:/Users/Nick/Desktop/University/CPSC471/Project/SW
 
 CORS(app)
 mysql = MySQL(app)
-"""
+
 
 def preprocess (text):
       str_punctuation=string.punctuation.replace('.','')
@@ -83,17 +84,17 @@ def model_reader(text):
     result = {'summary': bert_summary, 'all_papers_details': context}
     return result
 
-#@app.route('/api/signup', methods=['POST'])
+@app.route('/api/signup', methods=['POST'])
 def machinelearning():
 
-    path = "nlp_video.mp4"
+    path = "test.png"
     #path = request.json['path']
     file_type = path.split('.',1)
 
     if ((file_type[1].lower() == "jpg") or (file_type[1].lower() == "jpeg") or (file_type[1].lower() == "png")):
 
         print("1")
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'VISION API KEY'
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'data-cycle-341817-e8ec2ea6c8ca.json'
         client = vision.ImageAnnotatorClient()
 
         file = open(path ,'rb')
@@ -107,6 +108,8 @@ def machinelearning():
 
         result = model_reader(docText)
         #return jsonify({'text': docText})
+
+        print(result)
 
         return jsonify(result)
 
@@ -142,7 +145,7 @@ def machinelearning():
         print(result)
         return
 
-        #return jsonify(result)
+        return jsonify(result)
 
     elif file_type[1].lower() == "pdf":
 
@@ -165,7 +168,7 @@ def machinelearning():
 
         print(result['all_papers_details'][0]['url'])
 
-        #return jsonify(result)
+        return jsonify(result)
 
 
     else:
