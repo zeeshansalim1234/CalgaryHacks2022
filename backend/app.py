@@ -23,63 +23,12 @@ app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'sweseek'
+app.config['MYSQL_DB'] = 'calgaryhacks'
 app.config['SECRET_KEY'] = 'MySecretKey'
 app.config["CLIENT_pdfs"] = "C:/Users/Nick/Desktop/University/CPSC471/Project/SWESeek/backendPython/resumeStorage"
 
 CORS(app)
 mysql = MySQL(app)
-
-@app.route('/api/signup', methods=['POST'])
-def signup(): # correct
-    
-    username = request.json['username']
-    email = request.json['email']
-    firstName = request.json['firstName']
-    lastName = request.json['lastName']
-    phoneNumber = request.json['phoneNumber']
-    password = request.json['password']
-
-    cur0 = mysql.connection.cursor()
-    result = cur0.execute("Select * FROM USERCREDENTIALS")
-
-    if (result > 0):
-        userDetails = cur0.fetchall()
-        for user in userDetails:
-            if (user[1] == email or user[0] == username):
-                return jsonify({'error':'user already exists.'}), 500
-
-    mysql.connection.commit()
-    cur0.close()
-
-    cur = mysql.connection.cursor()
-    cur.execute("""INSERT INTO USERCREDENTIALS(username,email,firstName,lastName,phoneNumber,password) VALUES(%s,%s,%s,%s,%s,%s)""", (username,email,firstName,lastName,phoneNumber,password))
-    mysql.connection.commit()
-    cur.close()
-    token=username+":"+password
-    return jsonify({'token':token}), 201
-
-
-@app.route('/api/login', methods=['GET'])
-def login(): #correct
-
-    email = request.args.get('email')
-    password = request.args.get('password')
-
-    cur = mysql.connection.cursor()
-    result = cur.execute("Select * FROM USERCREDENTIALS")
-
-    if(result>0):
-
-        userDetails = cur.fetchall()
-        for user in userDetails:
-            if(user[1]==email and user[5]==password):
-                token = user[0] + ":" + password
-                return jsonify({'token':token}), 200
-
-    return jsonify({'error':'No valid account found!'}), 401
-
-
 
 
 
@@ -136,11 +85,15 @@ def model_reader(text):
     result = {'summary': bert_summary, 'all_papers_details': context}
     return result
 
-@app.route('/api/signup', methods=['POST'])
+@app.route('/api/machinelearning', methods=['POST'])
 def machinelearning():
 
-    path = "test.png"
-    #path = request.json['path']
+    #path = "nlp_video.mp4"
+    path = request.json['path']  # input from client
+    #youtube = request.json['youtube'] # boolean to check if they want youtube recommendations
+    #papers = request.json['papers'] # boolean to check if they want papers recommendations
+
+
     file_type = path.split('.',1)
 
     if ((file_type[1].lower() == "jpg") or (file_type[1].lower() == "jpeg") or (file_type[1].lower() == "png")):
@@ -170,7 +123,7 @@ def machinelearning():
         f1 = open(path, 'rb')
 
         apikey = 'P4L2u2NeULGbw5DkEQELCXph4119eFNo9XXKa4ku4qVA'
-        url = 'https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/35437128-dcf1-4cc7-946c-c4d4b608ba4b'
+        url = 'https://api.au-syd.speech-to-text.watson.cloud.ibm.com/'
         authenticator = IAMAuthenticator(apikey)
         stt = SpeechToTextV1(authenticator=authenticator)
         stt.set_service_url(url)
@@ -181,18 +134,16 @@ def machinelearning():
 
         if file_type[1].lower() == "mp4":
             transcript = ""
-            with tempfile.TemporaryDirectory() as tmpdirname:
-                video = mp.VideoFileClip(path)
-                video.audio.write_audiofile(str(tmpdirname) + '\\output.mp3')
-                with open(str(tmpdirname) + '\\output.mp3', 'rb') as fin:
-                    res = stt.recognize(audio=fin, content_type='audio/mp3', model='en-AU_NarrowbandModel',
-                                        continuous=True).get_result()
-                    text = [result['alternatives'][0]['transcript'].rstrip() + '.\n' for result in res['results']]
-                    text = [para[0].title() + para[1:] for para in text]
-                    transcript = ''.join(text)
+
+            video = mp.VideoFileClip(path)
+            video.audio.write_audiofile('output.mp3')
+            with open('output.mp3', 'rb') as fin:
+                res = stt.recognize(audio=fin, content_type='audio/mp3', model='en-AU_NarrowbandModel', inactivity_timeout=30).get_result()
+                text = [result['alternatives'][0]['transcript'].rstrip() + '.\n' for result in res['results']]
+                text = [para[0].title() + para[1:] for para in text]
+                transcript = ''.join(text)
 
         result = model_reader(transcript)
-
 
         print(result)
         return
@@ -211,8 +162,7 @@ def machinelearning():
             text = text + page.extractText()
         text = preprocess(text)
         name = "Refrences"
-        #ri = text.find(name)
-        #text = text[:ri]
+
 
         print(text)
 
@@ -229,4 +179,5 @@ def machinelearning():
 
 
 
-print(machinelearning())
+if __name__ == "__main__":
+    app.run(debug=True)
