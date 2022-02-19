@@ -1,0 +1,45 @@
+.LoginPageContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    margin: auto 0 auto 0;
+}
+
+.LoginPageLeftCol{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    height: 100%;
+    text-align: left;
+    margin-left: 8%;
+}
+
+.LoginPageRightCol{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.LoginPageContainer h2{
+    color:rgba(1, 153, 255, 0.685);
+    font-family: 'Poppins';
+    margin: 0 0 0 0;
+}
+
+.LoginPageContainer h1{
+    color:rgb(1, 141, 255);
+    font-family: 'Poppins';
+    margin: 20px 20px 20px 0;
+}
+
+.FormLabel{
+    font-size: 22px;
+    font-family: 'Poppins';
+    color:rgba(1, 153, 255, 0.685);
+}
+
+.FormControl{
+    border-radius: 10px;
+}
