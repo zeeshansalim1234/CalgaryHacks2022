@@ -2,50 +2,30 @@ import "../styles/SignUpPageStyles.css";
 import "../styles/GlassStyles.css";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import axios from "axios";
+import Axios from "axios";
 import { useState } from "react";
 
 function SignUpPage() {
   const serverAddr = "http://localhost:3000";
   const [validated, setValidated] = useState(false);
 
-  function checkForm() {
-    let email = document.getElementById("email").value;
-    let name = document.getElementById("name").value;
-    let password = document.getElementById("password").value;
-    if (
-      !email.match(
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-    ) {
-      return false;
-    }
-    if (name.length() < 3) {
-      return false;
-    }
-    if (password.length() < 5) {
-      return false;
-    }
-    return true;
-  }
-
   const signup = (event) => {
     const form = event.currentTarget;
-    
+    event.preventDefault();
+
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
       setValidated(true);
     } else {
-      console.log("TEST");
-      axios
+      Axios
         .post(serverAddr + "/api/signup", {
           email: document.getElementById("email").value,
           name: document.getElementById("name").value,
           password: document.getElementById("password").value,
         })
         .then((res) => {
-          window.location.href("/login");
+          localStorage.setItem("token", res.data.token);
+          window.location.href = "/dashboard";
         });
     }
   };

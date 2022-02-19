@@ -2,11 +2,32 @@ import "../styles/LoginPageStyles.css";
 import "../styles/GlassStyles.css";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import { useState } from 'react';
+import Axios from 'axios';
 
 function LoginPage() {
-  function login() {
-
-  }
+    const serverAddr = "http://localhost:3000";
+    const [validated, setValidated] = useState(false);
+  
+    const login = (event) => {
+      const form = event.currentTarget;
+      event.preventDefault();
+  
+      if (form.checkValidity() === false) {
+        event.stopPropagation();
+        setValidated(true);
+      } else {
+        Axios
+          .post(serverAddr + "/api/login", {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+          })
+          .then((res) => {
+            localStorage.setItem("token", res.data.token);
+            window.location.href = "/dashboard";
+          });
+      }
+    };
 
   return (
     <div className="glass">
@@ -20,7 +41,7 @@ function LoginPage() {
               Sign up
             </Link>
           </h2>
-          <Form>
+          <Form noValidate validated={validated} onSubmit={login}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label className="FormLabel">Email address</Form.Label>
               <Form.Control
