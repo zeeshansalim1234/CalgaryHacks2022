@@ -30,6 +30,58 @@ app.config["CLIENT_pdfs"] = "C:/Users/Nick/Desktop/University/CPSC471/Project/SW
 CORS(app)
 mysql = MySQL(app)
 
+@app.route('/api/signup', methods=['POST'])
+def signup(): # correct
+    
+    username = request.json['username']
+    email = request.json['email']
+    firstName = request.json['firstName']
+    lastName = request.json['lastName']
+    phoneNumber = request.json['phoneNumber']
+    password = request.json['password']
+
+    cur0 = mysql.connection.cursor()
+    result = cur0.execute("Select * FROM USERCREDENTIALS")
+
+    if (result > 0):
+        userDetails = cur0.fetchall()
+        for user in userDetails:
+            if (user[1] == email or user[0] == username):
+                return jsonify({'error':'user already exists.'}), 500
+
+    mysql.connection.commit()
+    cur0.close()
+
+    cur = mysql.connection.cursor()
+    cur.execute("""INSERT INTO USERCREDENTIALS(username,email,firstName,lastName,phoneNumber,password) VALUES(%s,%s,%s,%s,%s,%s)""", (username,email,firstName,lastName,phoneNumber,password))
+    mysql.connection.commit()
+    cur.close()
+    token=username+":"+password
+    return jsonify({'token':token}), 201
+
+
+@app.route('/api/login', methods=['GET'])
+def login(): #correct
+
+    email = request.args.get('email')
+    password = request.args.get('password')
+
+    cur = mysql.connection.cursor()
+    result = cur.execute("Select * FROM USERCREDENTIALS")
+
+    if(result>0):
+
+        userDetails = cur.fetchall()
+        for user in userDetails:
+            if(user[1]==email and user[5]==password):
+                token = user[0] + ":" + password
+                return jsonify({'token':token}), 200
+
+    return jsonify({'error':'No valid account found!'}), 401
+
+
+
+
 
 def preprocess (text):
       str_punctuation=string.punctuation.replace('.','')
