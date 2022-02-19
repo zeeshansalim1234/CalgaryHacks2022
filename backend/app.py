@@ -16,6 +16,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import tempfile
 import moviepy.editor as mp
 from google.cloud import vision
+from apiclient.discovery import build
 
 
 app = Flask(__name__)
@@ -43,6 +44,28 @@ def preprocess (text):
       text=re.sub(' +', ' ', text)
       return text
 
+def youtube(query):
+
+    api_key = "AIzaSyDhs3vS_OwXut_S2AxXE1AOYid9Emd3iSo"
+    youtube = build('youtube', 'v3', developerKey=api_key)
+    type(youtube)
+    req = youtube.search().list(q=query, part='snippet')
+    result = req.execute()
+
+    titles = []
+    links = []
+    descriptions = []
+    result1 =[]
+
+    for i in range(0, len(result['items'])):
+        titles.append(result['items'][i]['snippet']['title'])
+        links.append("https://www.youtube.com/watch?v=" + result['items'][i]['id']['videoId'])
+        descriptions.append(result['items'][i]['snippet']['description'])
+
+    for i in range(0, len(result['items'])):
+        result1.append({'title': titles[i], 'abstract': descriptions[i], 'url': links[i]})
+
+    return result1
 
 def search_papers(title,model,corpus_embeddings,papers):
 
@@ -90,9 +113,8 @@ def machinelearning():
 
     #path = "nlp_video.mp4"
     path = request.json['path']  # input from client
-    #youtube = request.json['youtube'] # boolean to check if they want youtube recommendations
+    byoutube = request.json['youtube'] # boolean to check if they want youtube recommendations
     #papers = request.json['papers'] # boolean to check if they want papers recommendations
-
 
     file_type = path.split('.',1)
 
@@ -112,6 +134,11 @@ def machinelearning():
         print(docText)
 
         result = model_reader(docText)
+
+        if(youtube(byoutube)):
+
+            result['youtube'] = youtube(docText)
+
         #return jsonify({'text': docText})
 
         print(result)
@@ -145,8 +172,8 @@ def machinelearning():
 
         result = model_reader(transcript)
 
-        print(result)
-        return
+        if (youtube(byoutube)):
+            result['youtube'] = youtube(transcript)
 
         return jsonify(result)
 
@@ -168,7 +195,12 @@ def machinelearning():
 
         result = model_reader(text)
 
+
+
         print(result['all_papers_details'][0]['url'])
+
+        if (youtube(byoutube)):
+            result['youtube'] = youtube(text)
 
         return jsonify(result)
 
