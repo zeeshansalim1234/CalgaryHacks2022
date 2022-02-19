@@ -26,7 +26,11 @@
 ### What is HealthPLug?
 ---
 ![Healthplug](https://)
-HealthPLug is a one stop personalised platform that simplifies the concept of living a health lifestyle. Healthplug platform employs a machine learning model that generates videos, research papers, visualized data as a response to the users input.
+HealthPLug is a one stop personalised platform that simplifies the concept of living a health lifestyle. Healthplug platform employs a machine learning model that generates videos, research papers, visualized data as a response to the users input. The Project stems from our personal hardships of maintaining a healthy lifestyle. It is a mobile friendly web application which serves the needs of a user based on their input.
+The platform is split into two main components.
+1. <br>
+2. <br>
+
 ---
 ### Technologies Used (Our Stack)
 ---
