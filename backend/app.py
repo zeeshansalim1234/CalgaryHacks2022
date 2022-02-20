@@ -50,7 +50,7 @@ def preprocess(text):
 
 
 def youtube(query):
-    api_key = "AIzaSyDhs3vS_OwXut_S2AxXE1AOYid9Emd3iSo"
+#     api_key = "AIzaSyDhs3vS_OwXut_S2AxXE1AOYid9Emd3iSo"
     youtube = build('youtube', 'v3', developerKey=api_key)
     type(youtube)
     req = youtube.search().list(q=query, part='snippet')
@@ -199,7 +199,7 @@ def machinelearning():
     if ((file_type[1].lower() == "jpg") or (file_type[1].lower() == "jpeg") or (file_type[1].lower() == "png")):
 
         print("1")
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'data-cycle-341817-e8ec2ea6c8ca.json'
+#         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'data-cycle-341817-e8ec2ea6c8ca.json'
         client = vision.ImageAnnotatorClient()
 
         file = open(path, 'rb')
@@ -240,7 +240,7 @@ def machinelearning():
 
         f1 = open(path, 'rb')
 
-        apikey = 'P4L2u2NeULGbw5DkEQELCXph4119eFNo9XXKa4ku4qVA'
+#         apikey = 'P4L2u2NeULGbw5DkEQELCXph4119eFNo9XXKa4ku4qVA'
         url = 'https://api.au-syd.speech-to-text.watson.cloud.ibm.com/'
         authenticator = IAMAuthenticator(apikey)
         stt = SpeechToTextV1(authenticator=authenticator)
