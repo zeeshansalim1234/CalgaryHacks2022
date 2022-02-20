@@ -37,24 +37,45 @@ function DashboardPage() {
               {user.name}
             </h1>
           </div>
+          <h2 className="DashboardSubHeader">
+            We are so glad to see you back! Explore some of our various features
+            to learn more about your health and wellness. Taking care of your
+            mind and body is important to your long term wellbeing and the tools
+            we have built will ensure this.
+          </h2>
           <div className="CardContainer">
             <Card className="DashboardCard">
-              <Card.Img variant="top" src="./assets/ingredients.jpg" style={{borderRadius:`20px 20px 0 0`}} />
+              <Card.Img
+                variant="top"
+                src="./assets/ingredients.jpg"
+                style={{ borderRadius: `20px 20px 0 0` }}
+              />
               <Card.Body>
-                <Card.Title>Explore ingredients in your products</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Learn what ingredients may be harmful
-                </Card.Subtitle>
+                <Card.Title style={{ textAlign: `center` }}>
+                  Explore ingredients in your products
+                </Card.Title>
+                <Card.Text className="mb-2 ">
+                  Understanding what ingredients are in your food is incredibly important
+                  in todays product landscape. Using machine learning, our tool can detect
+                  potentialy harmful ingredients like fillers and preservatives that can be
+                  damaging for your health.
+                </Card.Text>
               </Card.Body>
             </Card>
             <Card className="DashboardCard">
+              <Card.Img
+                variant="top"
+                src="./assets/healthcard.jpg"
+                style={{ borderRadius: `20px 20px 0 0` }}
+              />
+
               <Card.Body>
-                <Card.Title>
+                <Card.Title style={{ textAlign: `center` }}>
                   Discover broader information on various health subjects.
                 </Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
+                <Card.Text className="mb-2 ">
                   Discover broader information on various health subjects.
-                </Card.Subtitle>
+                </Card.Text>
               </Card.Body>
             </Card>
           </div>
