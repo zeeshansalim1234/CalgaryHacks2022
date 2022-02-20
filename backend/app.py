@@ -22,6 +22,7 @@ import re
 import requests
 import cv2
 from pyzbar.pyzbar import decode
+
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -233,44 +234,22 @@ def BarcodeReader(image):
                           (x + w + 10, y + h + 10),
                           (255, 0, 0), 2)
 
-            if barcode.data != "":
-                # Print the barcode data
-                print(barcode.data)
-                print(barcode.type)
-    cv2.imshow("Image", img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+
 
     # Display the image
     return barcode.data
 
 
-
 @app.route('/api/healthProduct', methods=['POST'])
 def healthProductParser():
     path = request.json['path']  # input from client
-    image = "Img.jpg"
-    barcode = BarcodeReader(image)
+    barcode = str(BarcodeReader(path))
+    barcode = re.sub("[^0-9]", "", barcode)
+    barcode='27'+barcode
+    print(barcode)
 
 
-    """
-    
-    file_type = path.split('.', 1)
-
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'data-cycle-341817-e8ec2ea6c8ca.json'
-    client = vision.ImageAnnotatorClient()
-
-    file = open(path, 'rb')
-    content = file.read()  # read the entire file
-
-    image = vision.Image(content=content)
-    response = client.document_text_detection(image=image)
-    docText = response.full_text_annotation.text
-
-    """
-
-
-    url = 'https://world.openfoodfacts.org/api/v2/search?code=' + barcode + '&fields=ingredients_analysis_tags,nutrient_levels_tags,allergens,ingredients_text_en,product_name,nutrition_grades, allergens'
+    url = 'https://world.openfoodfacts.org/api/v2/search?code=%'+barcode+'%27&fields=ingredients_analysis_tags,nutrient_levels_tags,allergens,ingredients_text_en,product_name,nutrition_grades'
 
     # params = dict(
     #     origin='Chicago,IL',
