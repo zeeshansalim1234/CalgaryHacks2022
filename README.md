@@ -26,7 +26,8 @@ A sprint coding competition always teaches us how to create valuable code within
 |-----------|--------------------------------------|
 | Front-End | React, JavaScript, CSS               |
 | Back-End  | Python, Node.js                      |
-| Database  | MySQL                                |
+| Database  | MySQL                                | 
+| Machine Learning | JupyterNotebook               |
 
 ## API's used:
 
