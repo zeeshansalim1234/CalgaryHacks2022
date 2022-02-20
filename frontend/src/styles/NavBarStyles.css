@@ -1,0 +1,28 @@
+.NavBarContainer{
+    display: flex;
+    color: white;
+    flex-direction: row;
+    font-family: 'Poppins', sans-serif;
+    align-items: center;
+    justify-content:space-around;
+}
+
+.NavItemContainer{
+    width: 33.333vw;
+}
+
+.NavBarContainer h2{
+    cursor: pointer;
+}
+
+.NavBarContainer h2:hover{
+    transition: 0.5s;
+    font-size: 34px;
+}
+
+.Logo{
+    font-family: 'Staatliches';
+    font-size: 48px;
+    font-weight: 100;
+    margin: 2% 0 4% 0;
+}

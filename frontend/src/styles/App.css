@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(to top right, #1379ff, #00cfb4);
+}
+
+.main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body{
+  margin: 0;
+}
+
+h1{
+  margin: 0;
+}
+
+h2{
+  margin: 0;
+}
