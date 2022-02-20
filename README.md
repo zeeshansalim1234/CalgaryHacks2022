@@ -1,6 +1,6 @@
 # HealthPlug - Calgary Hacks 2022
 
-<img alt="Python" src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue"/> <img alt="MySQL" src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white"/> <img alt="React" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/> <img alt="PostMan" src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/><br> 
+<img alt="MySQL" src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white"/> <img alt="Python" src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue"/> <img alt="React" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/> <img alt="PostMan" src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/><br> 
 #### API Blueprint: https://docs.google.com/document/d/1UibA3Kuea-CXpcYSPyptzJmxg-iko_Sk0zLF-7Iy6L0/edit?usp=sharing 
 API postman document: https://documenter.getpostman.com/view/18814228/UVkjwJFs
 
@@ -46,7 +46,7 @@ Flask API was used to act as a controller between the Machine Learning model, Da
 Reference : https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge?select=metadata.csv
 COVID-19 Open Research Dataset (CORD-19). CORD-19 is a resource of over 500,000 scholarly articles, including over 200,000 with full text, about COVID-19, SARS-CoV-2, and related coronaviruses. This dataset provides information about several misconceptions known to people. This dataset assists people around to world to navigate through solutions to their misconceptions. 
 
-# ML model integration
+## ML model integration
 - The model is built using allenai-specter model with SentenceTransformers.
 - The dataset is fed to the model with the relevant information (abstract) required to recommend articles that solves the misconception.
 - Top article is send as an output with the url and abstract of the Research article with the similiarity score.
@@ -54,6 +54,16 @@ COVID-19 Open Research Dataset (CORD-19). CORD-19 is a resource of over 500,000 
 ## External Contribution
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please base all pull requests off of the main branch as they will be rebase merged. Check that there are no linter issues before opening a pull request by running.
+
+## Prequisites to run the ML Model
+```
+pip install regex
+pip install torch
+pip install pickle5
+pip install sentence-transformers
+pip install pandas
+pip install termcolor
+```
 
 ## License
 
