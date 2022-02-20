@@ -16,12 +16,8 @@ The platform is split into two main components.
 ## Challenges we ran into:
 We ran into multiple challenges along the development phase and were dealt with accordingly. With respect to Front-End we had challenges with aligning of placeholders that were used to display the results from our Machine Learning model. With respect to Back-End we ran into time bounded challenges as Machine learning model takes a considerable amount of time to create the tensor file. Employing a Machine Learning model also posed as challenges as the packages to be downloaded were conflicting with existing packages, resolving dependies also required a lot of time dedication. Our API choice was another thing we struggled with as we wanted to ensure we were using the best and more reliable technologies with respect to development and debugging.
 
-
-## Accomplishments that we're proud of:
-Hello
-
-## What we learned:
-Hello
+## What we learnt:
+A sprint coding competition always teaches us how to create valuable code within a resitricted time frame. We came accross multiple new technologies and discovered numerous ways to integrate all the segments of the project to provide a well working web application, Furthermore while creating a dataset for our 2nd feature we learnt about various harmful ingredients in products. 
 
 ## Technologies Used
 
