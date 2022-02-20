@@ -2,6 +2,7 @@
 
 <img alt="Python" src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue"/> <img alt="MySQL" src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white"/><img alt="React" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/> <img alt="PostMan" src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/><br> 
 #### API Blueprint: https://docs.google.com/document/d/1UibA3Kuea-CXpcYSPyptzJmxg-iko_Sk0zLF-7Iy6L0/edit?usp=sharing 
+API postman document: https://documenter.getpostman.com/view/18814228/UVkjwJFs
 
 
 ## What is HealthPlug ?
@@ -39,6 +40,16 @@ A sprint coding competition always teaches us how to create valuable code within
 HealthPlug web application was developed as a React app. Available to be viewed on mobile as well. The Back-End aspect of the code consists of a Machine Learning Model, MySQL database, and Flask API.
 Machine Learning model uses non textual input and provides relevant youtube suggestions, research papers, and more. HealthPLug is personalized for each user. The data pertaining to each user is stored in a MySQL database. The database also contains the search history of each user from previous interactions with the platform.
 Flask API was used to act as a controller between the Machine Learning model, Database and Front-End   
+
+## Dataset used
+
+Reference : https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge?select=metadata.csv
+COVID-19 Open Research Dataset (CORD-19). CORD-19 is a resource of over 500,000 scholarly articles, including over 200,000 with full text, about COVID-19, SARS-CoV-2, and related coronaviruses. This dataset provides information about several misconceptions known to people. This dataset assists people around to world to navigate through solutions to their misconceptions. 
+
+# ML model integration
+- The model is built using allenai-specter model with SentenceTransformers.
+- The dataset is fed to the model with the relevant information (abstract) required to recommend articles that solves the misconception.
+- Top article is send as an output with the url and abstract of the Research article with the similiarity score.
 
 ## External Contribution
 
