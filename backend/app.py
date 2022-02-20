@@ -115,9 +115,18 @@ def model_reader(text):
 @app.route('/api/machinelearning', methods=['POST'])
 def machinelearning():
     # path = "nlp_video.mp4"
-    path = request.json['path']  # input from client
+    #path = request.json['path']  # input from client
+
+    if 'file' not in request.files:
+        return jsonify({'Error': 'No file has been passed!'}), 500
+
+    else:
+        file = request.files['file']
+        file.save(os.path.join(app.config["CLIENT_pdfs"], file.filename))
+        path = file.filename
+        
     byoutube = request.json['youtube']  # boolean to check if they want youtube recommendations
-    # papers = request.json['papers'] # boolean to check if they want papers recommendations
+    bpapers = request.json['papers'] # boolean to check if they want papers recommendations
 
     file_type = path.split('.', 1)
 
@@ -136,7 +145,10 @@ def machinelearning():
 
         print(docText)
 
-        result = model_reader(docText)
+        result={}
+
+        if (youtube(bpapers)):
+            result = model_reader(docText)
 
         if (youtube(byoutube)):
             result['youtube'] = youtube(docText)
@@ -173,7 +185,10 @@ def machinelearning():
                 text = [para[0].title() + para[1:] for para in text]
                 transcript = ''.join(text)
 
-        result = model_reader(transcript)
+        result = {}
+
+        if (youtube(bpapers)):
+            result = model_reader(transcript)
 
         if (youtube(byoutube)):
             result['youtube'] = youtube(transcript)
@@ -195,7 +210,10 @@ def machinelearning():
 
         print(text)
 
-        result = model_reader(text)
+        result = {}
+
+        if (youtube(bpapers)):
+            result = model_reader(text)
 
         print(result['all_papers_details'][0]['url'])
 
@@ -242,12 +260,21 @@ def BarcodeReader(image):
 
 @app.route('/api/healthProduct', methods=['POST'])
 def healthProductParser():
-    path = request.json['path']  # input from client
+
+    #path = request.json['path']  # input from client
+
+    if 'file' not in request.files:
+        return jsonify({'Error': 'No file has been passed!'}), 500
+
+    else:
+        file = request.files['file']
+        file.save(os.path.join(app.config["CLIENT_pdfs"], file.filename))
+        path = file.filename
+
     barcode = str(BarcodeReader(path))
     barcode = re.sub("[^0-9]", "", barcode)
     barcode='27'+barcode
     print(barcode)
-
 
     url = 'https://world.openfoodfacts.org/api/v2/search?code=%'+barcode+'%27&fields=ingredients_analysis_tags,nutrient_levels_tags,allergens,ingredients_text_en,product_name,nutrition_grades'
 
