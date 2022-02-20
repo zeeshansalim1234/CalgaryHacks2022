@@ -1,0 +1,15 @@
+.IngredientsHeader{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.IngredientsHeader h1{
+    color: rgb(1, 103, 255);
+    font-family: 'Poppins';
+    font-size: 72px;
+    padding: 0 10%;
+    margin: 15% 0 3% 0;
+}

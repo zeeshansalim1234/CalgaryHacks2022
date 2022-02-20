@@ -37,7 +37,7 @@ function LoginPage() {
           <h1>Log in.</h1>
           <h2 style={{ marginBottom: `10%` }}>
             Not a member?{" "}
-            <Link to="/signup" style={{ textDecoration: `none`, color:`rgb(0, 110, 255, 0.685)` }}>
+            <Link to="/signup" style={{ textDecoration: `none`, color:`rgba(0, 89, 255, 0.678);` }}>
               Sign up
             </Link>
           </h2>

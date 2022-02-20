@@ -1,6 +1,7 @@
 import "../styles/DashboardStyles.css";
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 
 function DashboardPage() {
   const [user, setUser] = useState({
@@ -44,39 +45,53 @@ function DashboardPage() {
             we have built will ensure this.
           </h2>
           <div className="CardContainer">
-            <Card className="DashboardCard">
-              <Card.Img
-                variant="top"
-                src="./assets/ingredients.jpg"
-                style={{ borderRadius: `20px 20px 0 0` }}
-              />
-              <Card.Body>
-                <Card.Title style={{ textAlign: `center` }}>
-                  Explore ingredients in your products
-                </Card.Title>
-                <Card.Text className="mb-2 ">
-                  Understanding what ingredients are in your food is incredibly important
-                  in todays product landscape. Using machine learning, our tool can detect
-                  potentialy harmful ingredients like fillers and preservatives that can be
-                  damaging for your health.
-                </Card.Text>
-              </Card.Body>
+            <Card
+              className="DashboardCard"
+            >
+              <Link style={{ textDecoration: `none` }} to="/ingredientsearch">
+                <Card.Img
+                  variant="top"
+                  src="./assets/ingredients.jpg"
+                  style={{ borderRadius: `20px 20px 0 0` }}
+                />
+              </Link>
+              <Link style={{ textDecoration: `none`, color: `black` }} to="/ingredientsearch">
+                <Card.Body>
+                  <Card.Title style={{ textAlign: `center` }}>
+                    Explore ingredients in your products
+                  </Card.Title>
+                  <Card.Text className="mb-2 ">
+                    Understanding what ingredients are in your food is
+                    incredibly important in todays product landscape. Using
+                    image recognition, our tool can detect potentialy harmful
+                    ingredients like fillers and preservatives that can be
+                    damaging for your health.
+                  </Card.Text>
+                </Card.Body>
+              </Link>
             </Card>
             <Card className="DashboardCard">
-              <Card.Img
-                variant="top"
-                src="./assets/healthcard.jpg"
-                style={{ borderRadius: `20px 20px 0 0` }}
-              />
-
-              <Card.Body>
-                <Card.Title style={{ textAlign: `center` }}>
-                  Discover broader information on various health subjects.
-                </Card.Title>
-                <Card.Text className="mb-2 ">
-                  Discover broader information on various health subjects.
-                </Card.Text>
-              </Card.Body>
+              <Link style={{ textDecoration: `none` }} to="/healthsearch">
+                <Card.Img
+                  variant="top"
+                  src="./assets/healthcard.jpg"
+                  style={{ borderRadius: `20px 20px 0 0` }}
+                />
+              </Link>
+              <Link style={{ textDecoration: `none`, color:`black` }} to="/healthsearch">
+                <Card.Body>
+                  <Card.Title style={{ textAlign: `center` }}>
+                    Get broader information on health subjects.
+                  </Card.Title>
+                  <Card.Text className="mb-2 ">
+                    Sometimes it can be hard to find resources on various health
+                    subjects like workouts, meals, supplements, and other
+                    medical information. Our machine learning model can provide
+                    you with relevent youtube videos, research papers an more on
+                    these topics!
+                  </Card.Text>
+                </Card.Body>
+              </Link>
             </Card>
           </div>
         </div>

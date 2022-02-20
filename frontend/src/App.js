@@ -6,6 +6,8 @@ import SignUpPage from "./pages/SignUpPage";
 import NavBar from "./components/NavBar";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
+import IngredientSearchPage from "./pages/IngredientSearchPage";
+import HealthSearchPage from "./pages/HealthSearchPage";
 import { useState } from 'react';
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route path="/signup" exact element={<SignUpPage />} />
           <Route path="/login" exact element={<LoginPage />} />
           <Route path="/dashboard" exact element={<DashboardPage />} />
+          <Route path="/ingredientsearch" exact element={<IngredientSearchPage />} />
+          <Route path="/healthsearch" exact element={<HealthSearchPage />} />
         </Routes>
       </div>
     </div>

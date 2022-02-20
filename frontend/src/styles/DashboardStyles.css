@@ -19,7 +19,7 @@
 }
 
 .DashboardHeader{
-    color:rgb(1, 141, 255);
+    color:rgb(1, 103, 255);
     font-family: 'Poppins';
     font-size: 56px;
     font-weight: 600;
@@ -28,7 +28,7 @@
 }
 
 .DashboardSubHeader{
-    color:rgba(0, 110, 255, 0.678);
+    color:rgb(49, 49, 49);
     font-family: 'Poppins';
     font-size: 20px;
     font-weight: 200;
