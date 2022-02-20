@@ -4,6 +4,7 @@ import { Form, Card, Button } from "react-bootstrap";
 import { useState } from "react";
 import Axios from "axios";
 
+
 function HealthSearchPage() {
   const [results, setResults] = useState(null);
   const [file, setFile] = useState(null);
@@ -73,7 +74,7 @@ function HealthSearchPage() {
             })}
           </div>
 
-          <h2 className="HealthSearchSubHeader">Research Papers</h2>
+          <h2 style={{marginTop:`5%`}} className="HealthSearchSubHeader">Research Papers</h2>
           <div
             style={{
               display: `flex`,

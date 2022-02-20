@@ -10,7 +10,8 @@
     color:rgb(41, 41, 41);
     font-family: 'Poppins';
     text-align: left;
-    margin: 2% 0 0 0;
+    font-size: 40px;
+    margin: 2% 0 2% 0;
 }
 
 .HealthSearchContainer{
