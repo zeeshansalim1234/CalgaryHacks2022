@@ -38,7 +38,7 @@ function SignUpPage() {
           <h1>Create a new account.</h1>
           <h2 style={{ marginBottom: `10%` }}>
             Already a member?{" "}
-            <Link to="/login" style={{ textDecoration: `none`, color:`rgb(0, 110, 255, 0.685)` }}>
+            <Link to="/login" style={{ textDecoration: `none`, color:`rgba(0, 89, 255, 0.678);` }}>
               Log in
             </Link>
           </h2>
