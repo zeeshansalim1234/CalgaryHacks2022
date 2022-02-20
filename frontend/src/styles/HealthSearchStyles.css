@@ -1,0 +1,21 @@
+.HealthSearchHeader{
+    color: black;
+    font-family: 'Poppins';
+    font-size: 72px;
+    padding: 0 0%;
+    margin: 3% 0 2% 0;
+}
+
+.HealthSearchSubHeader{
+    color:rgb(41, 41, 41);
+    font-family: 'Poppins';
+    text-align: left;
+    margin: 2% 0 0 0;
+}
+
+.HealthSearchContainer{
+    height: auto;
+    text-align: left;
+    width: 90%;
+    margin: 0 auto 0 auto;
+}
