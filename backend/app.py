@@ -31,6 +31,51 @@ app.config["CLIENT_pdfs"] = "C:/Users/Nick/Desktop/University/CPSC471/Project/SW
 CORS(app)
 mysql = MySQL(app)
 
+@app.route('/api/signup', methods=['POST'])
+def signup(): # correct
+
+    email = request.json['email']
+    firstName = request.json['fullName']
+    password = request.json['password']
+
+    cur0 = mysql.connection.cursor()
+    result = cur0.execute("Select * FROM USERCREDENTIALS")
+
+    if (result > 0):
+        userDetails = cur0.fetchall()
+        for user in userDetails:
+            if (user[0] == email):
+                return jsonify({'error':'user already exists.'}), 500
+
+    mysql.connection.commit()
+    cur0.close()
+
+    cur = mysql.connection.cursor()
+    cur.execute("""INSERT INTO USERCREDENTIALS(email,fullName,password) VALUES(%s,%s,%s)""", (email,fullName,password))
+    mysql.connection.commit()
+    cur.close()
+    token=email+":"+password
+    return jsonify({'token':token}), 201
+
+
+@app.route('/api/login', methods=['GET'])
+def login(): #correct
+
+    email = request.args.get('email')
+    password = request.args.get('password')
+
+    cur = mysql.connection.cursor()
+    result = cur.execute("Select * FROM USERCREDENTIALS")
+
+    if(result>0):
+
+        userDetails = cur.fetchall()
+        for user in userDetails:
+            if(user[0]==email and user[2]==password):
+                token = user[0] + ":" + password
+                return jsonify({'token':token}), 200
+
+    return jsonify({'error':'No valid account found!'}), 401
 
 
 def preprocess (text):
