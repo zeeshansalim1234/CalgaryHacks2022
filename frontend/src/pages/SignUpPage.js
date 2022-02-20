@@ -68,6 +68,7 @@ function SignUpPage() {
               style={{ borderRadius: `10px` }}
               type="text"
               placeholder="Enter name"
+              id="name"
             />
             <Form.Control.Feedback type="invalid">
               Please provide a valid name
@@ -80,6 +81,7 @@ function SignUpPage() {
                 style={{ borderRadius: `10px` }}
                 type="password"
                 placeholder="Password"
+                id="password"
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid password.

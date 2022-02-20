@@ -2,33 +2,34 @@ import "../styles/LoginPageStyles.css";
 import "../styles/GlassStyles.css";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import { useState } from 'react';
-import Axios from 'axios';
+import { useState } from "react";
+import Axios from "axios";
 
 function LoginPage() {
-    const serverAddr = "http://127.0.0.1:5000";
-    const [validated, setValidated] = useState(false);
-  
-    const login = (event) => {
-      const form = event.currentTarget;
-      event.preventDefault();
-  
-      if (form.checkValidity() === false) {
-        event.stopPropagation();
-        setValidated(true);
-      } else {
-        Axios
-          .post(serverAddr + "/api/login", {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
-          })
-          .then((res) => {
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("name", res.data.name);
-            window.location.href = "/";
-          });
-      }
-    };
+  const serverAddr = "http://127.0.0.1:5000";
+  const [validated, setValidated] = useState(false);
+
+  const login = (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    console.log("Test");
+
+    if (form.checkValidity() === false) {
+      event.stopPropagation();
+      setValidated(true);
+    } else {
+      Axios.get(serverAddr + "/api/login", {
+        params: {
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+        },
+      }).then((res) => {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("name", res.data.name);
+        window.location.href = "/";
+      });
+    }
+  };
 
   return (
     <div className="glass">
@@ -38,7 +39,13 @@ function LoginPage() {
           <h1>Log in.</h1>
           <h2 style={{ marginBottom: `10%` }}>
             Not a member?{" "}
-            <Link to="/signup" style={{ textDecoration: `none`, color:`rgba(0, 89, 255, 0.678);` }}>
+            <Link
+              to="/signup"
+              style={{
+                textDecoration: `none`,
+                color: `rgba(0, 89, 255, 0.678);`,
+              }}
+            >
               Sign up
             </Link>
           </h2>
@@ -46,6 +53,7 @@ function LoginPage() {
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label className="FormLabel">Email address</Form.Label>
               <Form.Control
+              id="email"
                 className="FormControl"
                 style={{ borderRadius: `10px` }}
                 type="email"
@@ -55,6 +63,7 @@ function LoginPage() {
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label className="FormLabel">Password</Form.Label>
               <Form.Control
+              id="password"
                 className="FormControl"
                 style={{ borderRadius: `10px` }}
                 type="password"
