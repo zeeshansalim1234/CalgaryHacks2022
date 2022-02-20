@@ -69,25 +69,6 @@ function HealthSearchPage() {
               let j = "https://www.youtube.com/embed/" + m[1];
               return (
                 <iframe style={{ height:`25vh`, width: `40%`, margin: `10px` }} src={j} />
-
-                /*
-                <Card
-                  style={{
-                    width: `26.66%`,
-                    margin: `10px`,
-                    borderRadius: `20px`,
-                    background: `linear-gradient(to top left, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.7)`,
-                  }}
-                >
-                  <Card.Body>
-                    <Card.Title>{video.title}</Card.Title>
-                    <Card.Text>{video.abstract.substring(0, 100)}...</Card.Text>
-                    <Button href={video.url} variant="primary">
-                      Watch Here
-                    </Button>
-                  </Card.Body>
-                </Card>
-                */
               );
             })}
           </div>
@@ -105,8 +86,6 @@ function HealthSearchPage() {
               let j = paper.url.substring(0, paper.url.length);
               let p = j + ".pdf";
               return (
-               // <iframe style={{ height: `100vh`, width:`100%` ,margin: `10px` }} src={p} />
-                
                 <Card
                   style={{
                     width: `26.66%`,

@@ -20,6 +20,30 @@ function IngredientSearchPage() {
         headers: { "Content-Type": "multipart/form-data" },
       }).then((res) => {
         setProduct(res.data);
+        switch (product.nutrition_grades) {
+          case "e":
+            product.realGrade = "Bad nutritional quality.";
+            product.gradeColor = "danger";
+            break;
+          case "d":
+            product.realGrade = "Poor nutritional quality.";
+            product.gradeColor = "warning"
+            break;
+          case "c":
+            product.realGrade = "Average nutritional quality.";
+            product.gradeColor = "secondary";
+            break;
+          case "b":
+            product.realGrade = "Good nutritional quality.";
+            product.gradeColor = "primary";
+            break;
+          case "a":
+            product.realGrade = "Very good nutritional quality.";
+            product.gradeColor = "success";
+            break;
+          default:
+            break;
+        }
         setFile(null);
       });
     }
@@ -62,7 +86,11 @@ function IngredientSearchPage() {
             <Button
               onClick={() => setProduct(null)}
               variant="dark"
-              style={{ height: `50px`, margin: `auto 0 auto 0` }}
+              style={{
+                fontSize: `18px`,
+                height: `50px`,
+                margin: `auto 0 auto 0`,
+              }}
             >
               Submit Another Item
             </Button>
@@ -103,7 +131,7 @@ function IngredientSearchPage() {
               if (allergen !== "") {
                 return (
                   <Alert className="AllergyAlert" variant="warning">
-                    <p style={{ fontSize: `22px`, margin: `0` }}>{allergen}</p>
+                    <p style={{ fontSize: `18px`, margin: `0` }}>{allergen}</p>
                   </Alert>
                 );
               }
@@ -152,7 +180,9 @@ function IngredientSearchPage() {
                 className="IngredientsIcon"
                 src="./assets/palmoilicon.png"
               />
-              <h3>{product.ingredients_analysis_tags[0]}</h3>
+              <h3 style={{ fontSize: `18px`, margin: `9% 0 0 0` }}>
+                {product.ingredients_analysis_tags[0]}
+              </h3>
             </div>
             <div style={{ display: `flex`, flexDirection: `row` }}>
               <img
@@ -160,7 +190,9 @@ function IngredientSearchPage() {
                 className="IngredientsIcon"
                 src="./assets/vegan.png"
               />
-              <h3>{product.ingredients_analysis_tags[1]}</h3>
+              <h3 style={{ fontSize: `18px`, margin: `9% 0 0 0` }}>
+                {product.ingredients_analysis_tags[1]}
+              </h3>
             </div>
             <div style={{ display: `flex`, flexDirection: `row` }}>
               <img
@@ -168,12 +200,14 @@ function IngredientSearchPage() {
                 className="IngredientsIcon"
                 src="./assets/vegetarian.png"
               />
-              <h3>{product.ingredients_analysis_tags[2]}</h3>
+              <h3 style={{ fontSize: `18px`, margin: `5% 0 0 0` }}>
+                {product.ingredients_analysis_tags[2]}
+              </h3>
             </div>
           </div>
           <h2 className="IngredientsResultSubHeader">Overall Score</h2>
           <h2 className="IngredientsResultSubHeader">
-            {product.nutrition_grades.toUpperCase()}
+            <Alert variant={product.gradeColor} className="AllergyAlert">{product.realGrade}</Alert>
           </h2>
         </div>
       </div>
