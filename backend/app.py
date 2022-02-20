@@ -16,12 +16,13 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import tempfile
 import moviepy.editor as mp
 from google.cloud import vision
-from apiclient.discovery import build
+from googleapiclient.discovery import build
 import pandas as pd
 import re
 import requests
 import cv2
 from pyzbar.pyzbar import decode
+import openpyxl
 
 app = Flask(__name__)
 
@@ -30,7 +31,7 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'calgaryhacks'
 app.config['SECRET_KEY'] = 'MySecretKey'
-app.config["CLIENT_pdfs"] = "C:/Users/hp/PycharmProjects/SEC/pratice/venv"
+app.config["CLIENT_pdfs"] = "C:/Users/hp/PycharmProjects/SEC/calgaryhacks/venv"
 
 CORS(app)
 mysql = MySQL(app)
@@ -92,7 +93,7 @@ def model_reader(text):
     with open("specter.sav", "rb") as f:
         model = pickle.load(f)
 
-    with open('bert_summary_model.sav', "rb") as fi:
+    with open('bert_model.sav', "rb") as fi:
         model_1 = pickle.load(fi)
 
     bert_summary = ''.join(model_1(text, min_length=60))
@@ -110,7 +111,7 @@ def model_reader(text):
 
     result = {'summary': bert_summary, 'all_papers_details': context}
     return result
-
+"""
 @app.route('/api/signup', methods=['POST'])
 def signup():  # correct
 
@@ -131,7 +132,7 @@ def signup():  # correct
     cur0.close()
 
     cur = mysql.connection.cursor()
-    cur.execute("""INSERT INTO USERCREDENTIALS(email,name,,password) VALUES(%s,%s,%s)"""
+    
                 , (
         email,
         name,
@@ -161,17 +162,25 @@ def login():  # correct
 
     return jsonify({'error': 'No valid account found!'}), 401
 
+"""
+
+
 
 @app.route('/api/machinelearning', methods=['POST'])
 def machinelearning():
+
+
     #path = "nlp_video.mp4"
 
     #path = request.json['path']  # input from client
 
     print("Hi there")
-    print(request.files)
 
 
+    path = request.json['path']
+
+    """
+    
     if 'file' not in request.files:
         return jsonify({'Error': 'No file has been passed!'}), 500
 
@@ -180,7 +189,7 @@ def machinelearning():
         file.save(os.path.join(app.config["CLIENT_pdfs"], file.filename))
         path = file.filename
 
-
+    """
 
     byoutube = True  # boolean to check if they want youtube recommendations
     bpapers = True # boolean to check if they want papers recommendations
@@ -196,7 +205,7 @@ def machinelearning():
         file = open(path, 'rb')
         content = file.read()  # read the entire file
 
-        image = vision.Image(content - nt)
+        image = vision.Image(content = content)
         response = client.document_text_detection(image=image)
         docText = response.full_text_annotation.text
 
@@ -204,10 +213,21 @@ def machinelearning():
 
         result={}
 
-        if (youtube(bpapers)):
-            result = model_reader(docText)
+        if (bpapers):
 
-        if (youtube(byoutube)):
+            df = pd.read_excel (r'ML_data.xlsx')
+            titles= df.Title.values
+            abstracts = df.Abstract.values
+            URLs = df.URL.values
+
+            result["all_papers_details"] = []
+
+            for i in range(len(titles)):
+                result["all_papers_details"].append({'abstract':abstracts[i], 'title': titles[i], 'url': URLs[i]})
+
+            result["summary"] = ""
+
+        if (byoutube):
             result['youtube'] = youtube(docText)
 
         # return jsonify({'text': docText})
@@ -242,10 +262,21 @@ def machinelearning():
                 text = [para[0].title() + para[1:] for para in text]
                 transcript = ''.join(text)
 
-        result = {}
+        result={}
 
-        if (youtube(bpapers)):
-            result = model_reader(transcript)
+        if (bpapers):
+
+            df = pd.read_excel(r'ML_data.xlsx')
+            titles = df.Title.values
+            abstracts = df.Abstract.values
+            URLs = df.URL.values
+
+            result["all_papers_details"] = []
+
+            for i in range(len(titles)):
+                result["all_papers_details"].append({'abstract': abstracts[i], 'title': titles[i], 'url': URLs[i]})
+
+            result["summary"] = ""
 
         if (youtube(byoutube)):
             result['youtube'] = youtube(transcript)
@@ -263,16 +294,29 @@ def machinelearning():
             page = pdf.getPage(i)
             text = text + page.extractText()
         text = preprocess(text)
-        name = "Refrences"
+        name = "References"
 
         print(text)
 
         result = {}
 
-        if (youtube(bpapers)):
-            result = model_reader(text)
+        if (bpapers):
+
+            df = pd.read_excel(r'ML_data.xlsx')
+            titles = df.Title.values
+            abstracts = df.Abstract.values
+            URLs = df.URL.values
+
+            result["all_papers_details"] = []
+
+            for i in range(len(titles)):
+                result["all_papers_details"].append({'abstract': abstracts[i], 'title': titles[i], 'url': URLs[i]})
+
+            result["summary"] = ""
 
         print(result['all_papers_details'][0]['url'])
+
+
 
         if (youtube(byoutube)):
             result['youtube'] = youtube(text)
@@ -318,8 +362,9 @@ def BarcodeReader(image):
 @app.route('/api/healthProduct', methods=['POST'])
 def healthProductParser():
 
-    #path = request.json['path']  # input from client
+    path = request.json['path']  # input from client
 
+    """
     if 'file' not in request.files:
         return jsonify({'Error': 'No file has been passed!'}), 500
 
@@ -327,6 +372,8 @@ def healthProductParser():
         file = request.files['file']
         file.save(os.path.join(app.config["CLIENT_pdfs"], file.filename))
         path = file.filename
+
+    """
 
     barcode = str(BarcodeReader(path))
     barcode = re.sub("[^0-9]", "", barcode)
