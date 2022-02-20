@@ -2,20 +2,22 @@ import "../styles/IngredientsStyles.css";
 import "../styles/GlassStyles.css";
 import { Badge, Form, Alert, Button } from "react-bootstrap";
 import { useState } from "react";
-import Axios from 'axios';
+import Axios from "axios";
 
 function IngredientSearchPage() {
   const [product, setProduct] = useState(null);
   const [file, setFile] = useState(null);
 
-  function submitfile() {
-    if (file !== null) {
+  function submitfile(file1) {
+    if (file1 !== null) {
+      console.log(file);
       let formData = new FormData();
-      formData.append("file", file);
-      Axios.post("http://127.0.0.1:5000/api/machinelearning", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      formData.set("file", file1);
+      Axios({
+        method: "post",
+        url: "http://127.0.0.1:5000/api/healthProduct",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
       }).then((res) => {
         setProduct(res.data);
         setFile(null);
@@ -28,8 +30,17 @@ function IngredientSearchPage() {
       <div className="glass">
         <div className="IngredientsHeader">
           <h1>Upload a Image of the Products Barcode</h1>
-          <Form.Control onChange={(e) => setFile(e.target.files)} type="file" size="lg" style={{ width: `40%` }} />
-          <Button onClick={submitfile} size="lg" style={{ marginTop: `2%` }}>
+          <Form.Control
+            onChange={(e) => setFile(e.target.files[0])}
+            type="file"
+            size="lg"
+            style={{ width: `40%` }}
+          />
+          <Button
+            onClick={() => submitfile(file)}
+            size="lg"
+            style={{ marginTop: `2%` }}
+          >
             Submit
           </Button>
         </div>
@@ -89,11 +100,13 @@ function IngredientSearchPage() {
           </h2>
           <div style={{ display: `flex`, gap: `10px` }}>
             {product.allergens.map((allergen) => {
-              return (
-                <Alert className="AllergyAlert" variant="warning">
-                  <p style={{ fontSize: `22px`, margin: `0` }}>{allergen}</p>
-                </Alert>
-              );
+              if (allergen !== "") {
+                return (
+                  <Alert className="AllergyAlert" variant="warning">
+                    <p style={{ fontSize: `22px`, margin: `0` }}>{allergen}</p>
+                  </Alert>
+                );
+              }
             })}
           </div>
 

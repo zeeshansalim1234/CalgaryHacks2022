@@ -12,15 +12,16 @@ function HealthSearchPage() {
     if(file !== null){
       let formData = new FormData();
       formData.append("file", file);
-      Axios.post("http://127.0.0.1:5000/api/machinelearning", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }
+      Axios.post("http://127.0.0.1:5000/api/healthProduct", {
+        path: file.name,
       })
       .then((res) => {
         setResults(res.data);
         setFile(null);
-      });
+      })
+      .catch((e) => {
+        console.log(e);
+      })
     }
   }
 
@@ -30,7 +31,7 @@ function HealthSearchPage() {
         <div className="IngredientsHeader">
           <h1>Upload a PDF, Image, or other document to Search</h1>
           <Form.Control
-            onChange={(e) => setFile(e.target.files)}
+            onChange={(e) => setFile(e.target.files[0])}
             type="file"
             size="lg"
             style={{ width: `40%` }}
