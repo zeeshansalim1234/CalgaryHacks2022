@@ -30,7 +30,7 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'calgaryhacks'
 app.config['SECRET_KEY'] = 'MySecretKey'
-app.config["CLIENT_pdfs"] = "C:/Users/Nick/Desktop/University/CPSC471/Project/SWESeek/backendPython/resumeStorage"
+app.config["CLIENT_pdfs"] = "C:/Users/hp/PycharmProjects/SEC/pratice/venv"
 
 CORS(app)
 mysql = MySQL(app)
@@ -114,9 +114,14 @@ def model_reader(text):
 
 @app.route('/api/machinelearning', methods=['POST'])
 def machinelearning():
-    # path = "nlp_video.mp4"
+    #path = "nlp_video.mp4"
+    
     #path = request.json['path']  # input from client
 
+    print("Hi there")
+    print(request.files)
+
+    
     if 'file' not in request.files:
         return jsonify({'Error': 'No file has been passed!'}), 500
 
@@ -124,9 +129,11 @@ def machinelearning():
         file = request.files['file']
         file.save(os.path.join(app.config["CLIENT_pdfs"], file.filename))
         path = file.filename
-        
-    byoutube = request.json['youtube']  # boolean to check if they want youtube recommendations
-    bpapers = request.json['papers'] # boolean to check if they want papers recommendations
+
+
+
+    byoutube = True  # boolean to check if they want youtube recommendations
+    bpapers = True # boolean to check if they want papers recommendations
 
     file_type = path.split('.', 1)
 
