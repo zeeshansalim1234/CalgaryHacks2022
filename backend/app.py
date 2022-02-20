@@ -17,7 +17,9 @@ import tempfile
 import moviepy.editor as mp
 from google.cloud import vision
 from apiclient.discovery import build
-
+import pandas as pd
+import re
+import requests
 
 app = Flask(__name__)
 
@@ -31,51 +33,6 @@ app.config["CLIENT_pdfs"] = "C:/Users/Nick/Desktop/University/CPSC471/Project/SW
 CORS(app)
 mysql = MySQL(app)
 
-@app.route('/api/signup', methods=['POST'])
-def signup(): # correct
-
-    email = request.json['email']
-    firstName = request.json['fullName']
-    password = request.json['password']
-
-    cur0 = mysql.connection.cursor()
-    result = cur0.execute("Select * FROM USERCREDENTIALS")
-
-    if (result > 0):
-        userDetails = cur0.fetchall()
-        for user in userDetails:
-            if (user[0] == email):
-                return jsonify({'error':'user already exists.'}), 500
-
-    mysql.connection.commit()
-    cur0.close()
-
-    cur = mysql.connection.cursor()
-    cur.execute("""INSERT INTO USERCREDENTIALS(email,fullName,password) VALUES(%s,%s,%s)""", (email,fullName,password))
-    mysql.connection.commit()
-    cur.close()
-    token=email+":"+password
-    return jsonify({'token':token}), 201
-
-
-@app.route('/api/login', methods=['GET'])
-def login(): #correct
-
-    email = request.args.get('email')
-    password = request.args.get('password')
-
-    cur = mysql.connection.cursor()
-    result = cur.execute("Select * FROM USERCREDENTIALS")
-
-    if(result>0):
-
-        userDetails = cur.fetchall()
-        for user in userDetails:
-            if(user[0]==email and user[2]==password):
-                token = user[0] + ":" + password
-                return jsonify({'token':token}), 200
-
-    return jsonify({'error':'No valid account found!'}), 401
 
 
 def preprocess (text):
@@ -172,7 +129,7 @@ def machinelearning():
         file = open(path ,'rb')
         content = file.read() # read the entire file
 
-        image = vision.Image(content=content)
+        image = vision.Image(content- nt)
         response = client.document_text_detection(image=image)
         docText = response.full_text_annotation.text
 
@@ -254,7 +211,80 @@ def machinelearning():
 
         return jsonify("Error"), 500
 
+@app.route('/api/healthProduct', methods=['POST'])
+def healthProductParser():
 
+    path = request.json['path']  # input from client
+
+    """
+    
+    file_type = path.split('.', 1)
+
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'data-cycle-341817-e8ec2ea6c8ca.json'
+    client = vision.ImageAnnotatorClient()
+
+    file = open(path, 'rb')
+    content = file.read()  # read the entire file
+
+    image = vision.Image(content=content)
+    response = client.document_text_detection(image=image)
+    docText = response.full_text_annotation.text
+
+    """
+
+    barcode = '3017620425035'
+
+    url = 'https://world.openfoodfacts.org/api/v2/search?code='+barcode+'&fields=ingredients_analysis_tags,nutrient_levels_tags,allergens,ingredients_text_en,product_name,nutrition_grades, allergens'
+
+    # params = dict(
+    #     origin='Chicago,IL',
+    #     destination='Los+Angeles,CA',
+    #     waypoints='Joplin,MO|Oklahoma+City,OK',
+    #     sensor='false'
+    # )
+
+    resp = requests.get(url=url)
+    data = resp.json()  # Check the JSON Response Content documentation below
+    print(data["products"][0])
+
+    allergens = data["products"][0]["allergens"].split(",")
+
+    for i in range(len(allergens)):
+        allergens[i] = allergens[i].replace("en:", "")
+
+    ingredients_analysis_tags=[]
+    for i in range(len(data["products"][0]["ingredients_analysis_tags"])):
+        ingredients_analysis_tags.append(data["products"][0]["ingredients_analysis_tags"][i].replace("en:", ""))
+
+    product_name = data["products"][0]["product_name"]
+    nutrition_grades = data["products"][0]["nutrition_grades"]
+
+    nutrient_levels_tags = []
+    for elem in data["products"][0]["nutrient_levels_tags"]:
+        elem = elem.replace("en:", "")
+        elem = elem.replace("-", " ")
+        nutrient_levels_tags.append(elem)
+
+    ingredients = data["products"][0]["ingredients_text_en"].split(", ")
+
+    print(ingredients_analysis_tags)
+    print(ingredients)
+    print(nutrient_levels_tags)
+    print(nutrition_grades)
+    print(product_name)
+    print(allergens)
+    #result={'allergens': }:wq
+
+    result={}
+    result['product_name']=product_name
+    result['ingredients']=ingredients
+    result['allergens']=allergens
+    result['nutrient_levels_tags']=nutrient_levels_tags
+    result['nutrition_grades']=nutrition_grades
+    result['ingredients_analysis_tags']=ingredients_analysis_tags
+
+
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run(debug=True)
