@@ -1,8 +1,11 @@
 .glass {
-  min-height: 80vh;
+  min-height: 85vh;
   background: white;
   width: 70%;
-  background: linear-gradient(to right bottom, rgba(255,255,255, 0.7), rgba(255,255,255,0.4));
+  background: linear-gradient(to right bottom, rgba(255,255,255, 0.7), rgba(255,255,255,0.3));
   border-radius: 4rem;
   display: flex;
+  -webkit-box-shadow: 0px 0px 14px -4px rgba(0,0,0,0.5); 
+  box-shadow: 0px 0px 14px -4px rgba(0,0,0,0.5);
+  
 }

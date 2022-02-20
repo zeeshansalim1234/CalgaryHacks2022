@@ -37,7 +37,7 @@ function LoginPage() {
           <h1>Log in.</h1>
           <h2 style={{ marginBottom: `10%` }}>
             Not a member?{" "}
-            <Link to="/signup" style={{ textDecoration: `none` }}>
+            <Link to="/signup" style={{ textDecoration: `none`, color:`rgb(0, 110, 255, 0.685)` }}>
               Sign up
             </Link>
           </h2>
@@ -50,9 +50,6 @@ function LoginPage() {
                 type="email"
                 placeholder="Enter email"
               />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label className="FormLabel">Password</Form.Label>

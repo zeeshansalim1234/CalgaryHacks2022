@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   min-height: 100vh;
-  background: linear-gradient(to top right, #1379ff, #00cfb4);
+  background: linear-gradient(to top right, #006eff, #00cfcf);
 }
 
 .main{
@@ -19,5 +19,9 @@ h1{
 }
 
 h2{
+  margin: 0;
+}
+
+h3{
   margin: 0;
 }

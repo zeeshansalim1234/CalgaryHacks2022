@@ -5,11 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUpPage from "./pages/SignUpPage";
 import NavBar from "./components/NavBar";
 import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
 import { useState } from 'react';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
   return (
     <div className="App">
       <NavBar />
@@ -17,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/signup" exact element={<SignUpPage />} />
           <Route path="/login" exact element={<LoginPage />} />
+          <Route path="/dashboard" exact element={<DashboardPage />} />
         </Routes>
       </div>
     </div>
