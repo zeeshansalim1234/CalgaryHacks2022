@@ -25,7 +25,8 @@ function SignUpPage() {
         })
         .then((res) => {
           localStorage.setItem("token", res.data.token);
-          window.location.href = "/dashboard";
+          localStorage.setItem("name", res.data.name);
+          window.location.href = "/";
         });
     }
   };

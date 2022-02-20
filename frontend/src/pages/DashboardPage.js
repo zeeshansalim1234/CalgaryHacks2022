@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 
 function DashboardPage() {
   const [user, setUser] = useState({
-    name: "Nick",
+    name: "",
   });
   const [timeOfDay, setTimeOfDay] = useState();
 
@@ -13,6 +13,9 @@ function DashboardPage() {
     if (localStorage.getItem("token") === null) {
       window.location.href = "/login";
     }
+    setUser({
+      name: window.localStorage.getItem("name"),
+    })
 
     let time = new Date().getHours();
     switch (true) {
@@ -26,7 +29,7 @@ function DashboardPage() {
         setTimeOfDay("Good Evening ");
         break;
     }
-  });
+  },[]);
 
   return (
     <div className="glass">

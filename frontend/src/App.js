@@ -21,6 +21,7 @@ function App() {
           <Route path="/dashboard" exact element={<DashboardPage />} />
           <Route path="/ingredientsearch" exact element={<IngredientSearchPage />} />
           <Route path="/healthsearch" exact element={<HealthSearchPage />} />
+          <Route path="/" exact element={<DashboardPage />} />
         </Routes>
       </div>
     </div>
