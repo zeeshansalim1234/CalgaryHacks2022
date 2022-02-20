@@ -111,17 +111,67 @@ def model_reader(text):
     result = {'summary': bert_summary, 'all_papers_details': context}
     return result
 
+@app.route('/api/signup', methods=['POST'])
+def signup():  # correct
+
+    email = request.json['email']
+    name = request.json['name']
+    password = request.json['password']
+
+    cur0 = mysql.connection.cursor()
+    result = cur0.execute('Select * FROM USERCREDENTIALS')
+
+    if result > 0:
+        userDetails = cur0.fetchall()
+        for user in userDetails:
+            if user[0] == email:
+                return (jsonify({'error': 'user already exists.'}), 500)
+
+    mysql.connection.commit()
+    cur0.close()
+
+    cur = mysql.connection.cursor()
+    cur.execute("""INSERT INTO USERCREDENTIALS(email,name,,password) VALUES(%s,%s,%s)"""
+                , (
+        email,
+        name,
+        password,
+        ))
+    mysql.connection.commit()
+    cur.close()
+    token = username + ':' + password
+    return (jsonify({'token': token, 'name':name}), 201)
+
+@app.route('/api/login', methods=['GET'])
+def login():  # correct
+
+    email = request.args.get('email')
+    password = request.args.get('password')
+
+    cur = mysql.connection.cursor()
+    result = cur.execute("Select * FROM USERCREDENTIALS")
+
+    if (result > 0):
+
+        userDetails = cur.fetchall()
+        for user in userDetails:
+            if (user[0] == email and user[5] == password):
+                token = user[4] + ":" + password
+                return jsonify({'token': token, 'name':name}), 200
+
+    return jsonify({'error': 'No valid account found!'}), 401
+
 
 @app.route('/api/machinelearning', methods=['POST'])
 def machinelearning():
     #path = "nlp_video.mp4"
-    
+
     #path = request.json['path']  # input from client
 
     print("Hi there")
     print(request.files)
 
-    
+
     if 'file' not in request.files:
         return jsonify({'Error': 'No file has been passed!'}), 500
 
