@@ -10,7 +10,6 @@ function IngredientSearchPage() {
 
   function submitfile(file1) {
     if (file1 !== null) {
-      console.log(file);
       let formData = new FormData();
       formData.set("file", file1);
       Axios({
@@ -19,31 +18,31 @@ function IngredientSearchPage() {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       }).then((res) => {
-        setProduct(res.data);
-        switch (product.nutrition_grades) {
+        switch (res.data.nutrition_grades) {
           case "e":
-            product.realGrade = "Bad nutritional quality.";
-            product.gradeColor = "danger";
+            res.data.realGrade = "Bad nutritional quality.";
+            res.data.gradeColor = "danger";
             break;
           case "d":
-            product.realGrade = "Poor nutritional quality.";
-            product.gradeColor = "warning"
+            res.data.realGrade = "Poor nutritional quality.";
+            res.data.gradeColor = "warning"
             break;
           case "c":
-            product.realGrade = "Average nutritional quality.";
-            product.gradeColor = "secondary";
+            res.data.realGrade = "Average nutritional quality.";
+            res.data.gradeColor = "secondary";
             break;
           case "b":
-            product.realGrade = "Good nutritional quality.";
-            product.gradeColor = "primary";
+            res.data.realGrade = "Good nutritional quality.";
+            res.data.gradeColor = "primary";
             break;
           case "a":
-            product.realGrade = "Very good nutritional quality.";
-            product.gradeColor = "success";
+            res.data.realGrade = "Very good nutritional quality.";
+            res.data.gradeColor = "success";
             break;
           default:
             break;
         }
+        setProduct(res.data);
         setFile(null);
       });
     }
@@ -143,7 +142,7 @@ function IngredientSearchPage() {
               display: `flex`,
               flexWrap: `wrap`,
               alignItems: `center`,
-              marginTop: `2%`,
+              marginTop: `4%`,
             }}
           >
             <h2 className="IngredientsResultSubHeader" style={{ margin: `0` }}>
@@ -206,7 +205,7 @@ function IngredientSearchPage() {
             </div>
           </div>
           <h2 className="IngredientsResultSubHeader">Overall Score</h2>
-          <h2 className="IngredientsResultSubHeader">
+          <h2 className="IngredientsResultSubHeader" style={{margin:`0 0 0 0`}}>
             <Alert variant={product.gradeColor} className="AllergyAlert">{product.realGrade}</Alert>
           </h2>
         </div>
