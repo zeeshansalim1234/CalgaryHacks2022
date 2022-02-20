@@ -6,7 +6,7 @@ import Axios from "axios";
 import { useState } from "react";
 
 function SignUpPage() {
-  const serverAddr = "http://localhost:3000";
+  const serverAddr = "http://127.0.0.1:5000";
   const [validated, setValidated] = useState(false);
 
   const signup = (event) => {
